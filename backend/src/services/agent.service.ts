@@ -8,27 +8,37 @@ import { createCalendarTools } from "./agent-tools.service.js";
 
 export type AgentEvent = {
   type: "started" | "progress" | "token" | "completed" | "error";
+
   message?: string;
+
   token?: string;
 };
 
 export type StreamAgentReplyInput = {
   userId: string;
+
   authUserId: string;
+
   threadId: string;
+
   message: string;
+
   onEvent: (event: AgentEvent) => void;
 };
 
 export type ThreadSummary = {
   id: string;
+
   title: string;
+
   updatedAt: string;
 };
 
 export type ThreadMessage = {
   id: string;
+
   role: "user" | "assistant" | "system";
+
   content: string;
 };
 
@@ -127,6 +137,14 @@ export async function getThreadMessages(
 }
 
 export async function streamAgentReply(input: StreamAgentReplyInput) {
+  const startedAt = Date.now();
+
+  const logTime = (label: string) => {
+    console.log(
+      `[Agent Timing] ${label}: ${Date.now() - startedAt}ms`,
+    );
+  };
+
   if (!process.env.GOOGLE_API_KEY) {
     throw new Error("GOOGLE_API_KEY is not set");
   }
@@ -136,7 +154,11 @@ export async function streamAgentReply(input: StreamAgentReplyInput) {
     message: "Agent is planning",
   });
 
+  logTime("started event");
+
   const memory = createAgentMemory();
+
+  logTime("memory created");
 
   const agent = new Agent({
     id: "meeting-assistant",
@@ -147,6 +169,8 @@ export async function streamAgentReply(input: StreamAgentReplyInput) {
     memory,
   });
 
+  logTime("agent created");
+
   const result = await agent.stream(input.message, {
     memory: {
       resource: input.authUserId,
@@ -154,27 +178,38 @@ export async function streamAgentReply(input: StreamAgentReplyInput) {
     },
   });
 
+  logTime("agent.stream returned");
+
+  let firstTokenLogged = false;
+
   for await (const chunk of result.fullStream) {
-
     if (chunk.type === "tool-call") {
-
       input.onEvent({
         type: "progress",
         message: `Running ${chunk.payload.toolName}`,
       });
+
       continue;
     }
 
     if (chunk.type === "text-delta") {
       const text = chunk.payload.text;
+
       if (text) {
-        input.onEvent({ type: "token", token: text });
+        if (!firstTokenLogged) {
+          firstTokenLogged = true;
+          logTime("first text token");
+        }
+
+        input.onEvent({
+          type: "token",
+          token: text,
+        });
       }
     }
   }
 
-
-  //streaming finishes
+  logTime("stream finished");
 
   const thread = await memory.getThreadById({
     threadId: input.threadId,
@@ -193,4 +228,6 @@ export async function streamAgentReply(input: StreamAgentReplyInput) {
     type: "completed",
     message: "done",
   });
+
+  logTime("completed");
 }
