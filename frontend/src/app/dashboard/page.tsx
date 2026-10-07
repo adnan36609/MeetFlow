@@ -12,9 +12,15 @@ const styles = {
   loadingShell:
     "app-shell-bg flex h-svh items-center justify-center text-sm text-muted-foreground",
   shell: "app-shell-bg",
-  userLabel: "mb-2 truncate px-1 text-sm text-muted-foreground",
+  userRow:
+    "flex items-center gap-3 rounded-xl border border-border bg-card p-2.5 shadow-sm",
+  avatar:
+    "flex size-9 shrink-0 items-center justify-center rounded-full bg-primary text-sm font-semibold uppercase text-primary-foreground",
+  userInfo: "min-w-0 flex-1",
+  userName: "truncate text-sm font-medium",
+  userSub: "text-[11px] text-muted-foreground",
   logoutBtn:
-    "w-full justify-start gap-2 text-muted-foreground hover:text-foreground",
+    "size-8 shrink-0 text-muted-foreground hover:bg-destructive/10 hover:text-destructive",
   logoutIcon: "size-4",
 } as const;
 
@@ -26,6 +32,7 @@ export default function DashboardPage() {
   const [loggingOut, setLoggingOut] = useState(false);
 
   const label = user?.email || user?.name || "Signed in User";
+  const initial = label.charAt(0);
 
   async function handleLogout() {
     if (loggingOut) return;
@@ -49,20 +56,28 @@ export default function DashboardPage() {
         sessionToken={sessionToken}
         connections={<ConnectionsPanel sessionToken={sessionToken} />}
         footer={
-          <>
-            <div className={styles.userLabel}>
-              {isUserLoading ? "Loading..." : label}
+          <div className={styles.userRow}>
+            <div className={styles.avatar}>
+              {isUserLoading ? "·" : initial}
+            </div>
+            <div className={styles.userInfo}>
+              <p className={styles.userName}>
+                {isUserLoading ? "Loading..." : label}
+              </p>
+              <p className={styles.userSub}>Signed in</p>
             </div>
             <Button
               variant="ghost"
+              size="icon"
               className={styles.logoutBtn}
               disabled={loggingOut}
               onClick={handleLogout}
+              aria-label="Log out"
+              title="Log out"
             >
               <LogOut className={styles.logoutIcon} />
-              {loggingOut ? "Logging Out..." : "Logout"}
             </Button>
-          </>
+          </div>
         }
       />
     </div>
