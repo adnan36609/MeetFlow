@@ -13,7 +13,7 @@ import {
 } from "@/lib/connections";
 
 const styles = {
-  root: "space-y-1.5",
+  root: "",
   title: "px-0.5 text-sm font-semibold text-sidebar-foreground",
   error: "text-xs text-destructive",
   skeleton: "h-11 w-full rounded-xl",
@@ -86,7 +86,6 @@ function ConnectionsPanel({ sessionToken }: { sessionToken: string }) {
 
   return (
     <div className={styles.root}>
-      <p className={styles.title}>Connections</p>
 
       {loading || !connection ? (
         <Skeleton className={styles.skeleton} />
