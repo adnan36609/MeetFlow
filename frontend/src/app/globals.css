@@ -339,11 +339,11 @@
 
   .dot-grid {
     background-image: radial-gradient(
-      oklch(0.6 0.03 250 / 0.2) 1px,
+      oklch(0.6 0.04 250 / 1.0) 1px,
       transparent 1px
     );
     background-size: 22px 22px;
-    mask-image: radial-gradient(ellipse at center, black 25%, transparent 70%);
+    mask-image: radial-gradient(ellipse at center, black 50%, transparent 70%);
   }
 
 }
