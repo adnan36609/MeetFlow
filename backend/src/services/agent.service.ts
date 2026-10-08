@@ -140,9 +140,7 @@ export async function streamAgentReply(input: StreamAgentReplyInput) {
   const startedAt = Date.now();
 
   const logTime = (label: string) => {
-    console.log(
-      `[Agent Timing] ${label}: ${Date.now() - startedAt}ms`,
-    );
+    console.log(`[Agent Timing] ${label}: ${Date.now() - startedAt}ms`);
   };
 
   if (!process.env.GOOGLE_API_KEY) {
@@ -183,6 +181,12 @@ export async function streamAgentReply(input: StreamAgentReplyInput) {
   let firstTokenLogged = false;
 
   for await (const chunk of result.fullStream) {
+    if (chunk.type === "tool-error") {
+      throw new Error(
+        "Calendar action failed. Please check your Google Calendar connection and try again.",
+      );
+    }
+
     if (chunk.type === "tool-call") {
       input.onEvent({
         type: "progress",
