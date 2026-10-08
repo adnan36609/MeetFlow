@@ -1,13 +1,9 @@
-import { LibSQLStore } from "@mastra/libsql";
+import { PostgresStore } from "@mastra/pg";
 import { Memory } from "@mastra/memory";
-import { resolve } from "node:path";
-import { tr } from "zod/locales";
 
-const dbPath = resolve(process.cwd(), "mastra.db");
-
-export const memoryStore = new LibSQLStore({
+export const memoryStore = new PostgresStore({
   id: "memory-assistant-memory",
-  url: `file:${dbPath}`,
+  connectionString: process.env.DATABASE_URL,
 });
 
 export function createAgentMemory() {
