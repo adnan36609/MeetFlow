@@ -15,7 +15,7 @@ export default function SignInPage() {
             MeetFlow
           </CardTitle>
           <CardDescription className="text-base leading-relaxed">
-            SignIn to connect calendar and start schedueling with your agent
+            Sign in to connect your calendar and start scheduling with your AI assistant.
           </CardDescription>
         </CardHeader>
         <RedirectIfAuthenticated>
