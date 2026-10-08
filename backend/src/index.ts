@@ -26,7 +26,8 @@ app.get("/api/health", async (_req, res) => {
       service: "agentic-calendar-app",
       database: "up"
     });
-  } catch {
+  } catch(error) {
+    console.error("Health check database report: ", error);
     res.status(503).json({
       status: "error",
       // success: false,
