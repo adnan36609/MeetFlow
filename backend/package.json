@@ -1,6 +1,7 @@
 {
   "name": "backend",
   "version": "1.0.0",
+  "type": "module",
   "description": "",
   "main": "index.js",
   "scripts": {
@@ -9,7 +10,6 @@
     "start": "node dist/index.js",
     "migrate": "tsx scripts/migrate.ts"
   },
-  "type": "module",
   "dependencies": {
     "@ai-sdk/google": "^4.0.88",
     "@descope/node-sdk": "^2.17.0",
