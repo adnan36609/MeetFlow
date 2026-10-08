@@ -4,7 +4,7 @@
 
 MeetFlow lets users manage their calendar through natural-language conversations instead of traditional scheduling forms.
 
-**[Live Demo](YOUR_LIVE_URL)**
+**[Live Demo](https://meet-flow-beta.vercel.app/)**
 
 ## Features
 
@@ -38,15 +38,16 @@ Gemini Memory   Calendar Tools
 
 ## Tech Stack
 
-| Layer          | Technologies                                 |
-| -------------- | -------------------------------------------- |
-| Frontend       | Next.js, TypeScript, Tailwind CSS, shadcn/ui |
-| Backend        | Node.js, Express, TypeScript                 |
-| AI             | Mastra, Google Gemini                        |
-| Authentication | Descope                                      |
-| Database       | PostgreSQL                                   |
-| Integration    | Google Calendar API                          |
-| Infrastructure | Docker                                       |
+| Layer             | Technologies                                 |
+| ----------------- | -------------------------------------------- |
+| Frontend          | Next.js, TypeScript, Tailwind CSS, shadcn/ui |
+| Backend           | Node.js, Express, TypeScript                 |
+| AI                | Mastra, Google Gemini                        |
+| Authentication    | Descope                                      |
+| Database          | PostgreSQL, Neon                             |
+| Integration       | Google Calendar API                          |
+| Deployment        | Vercel                                       |
+| Local Development | Docker                                       |
 
 ## Example
 
@@ -73,6 +74,7 @@ MeetFlow/
 
 ```bash
 git clone https://github.com/adnan36609/MeetFlow.git
+
 cd MeetFlow
 ```
 
