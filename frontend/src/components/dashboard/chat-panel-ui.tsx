@@ -271,7 +271,7 @@ export function ChatPanelUI({
 
             <div className={styles.brandText}>
               <p className={styles.brandTitle}>MeetFlow</p>
-              <p className={styles.brandSubtitle}>Your intelligent calendar</p>
+              <p className={styles.brandSubtitle}>Your intelligent meeting assistant</p>
             </div>
           </Link>
         </div>
