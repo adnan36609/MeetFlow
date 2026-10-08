@@ -50,6 +50,21 @@ function formatEvent(event: {
   };
 }
 
+function kolkataDate(date = new Date()) {
+  const parts = new Intl.DateTimeFormat("en-GB", {
+    timeZone: "Asia/Kolkata",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).formatToParts(date);
+
+  const values = Object.fromEntries(
+    parts.map(({ type, value }) => [type, value]),
+  );
+
+  return `${values.year}-${values.month}-${values.day}`;
+}
+
 export async function listUpcomingMeetings(input: {
   authUserId: string;
   maxResults?: number;
@@ -62,16 +77,10 @@ export async function listUpcomingMeetings(input: {
   let timeMax: string | undefined;
 
   if (input.todayOnly) {
-    const start = new Date();
+    const date = kolkataDate();
 
-    // 00:00:00:00
-    start.setHours(0, 0, 0, 0);
-
-    const end = new Date();
-    end.setHours(23, 59, 59, 999);
-
-    timeMin = start.toISOString();
-    timeMax = end.toISOString();
+    timeMin = `${date}T00:00:00+05:30`;
+    timeMax = `${date}T23:59:59.999+05:30`;
   }
 
   const response = await calendar.events.list({
